@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @author WQ
  *
  */
-@Component
+/*@Component
 public class QuartzDemo {
     
     @Scheduled(cron = "0 0/1 * * * ?") // 每分钟执行一次
@@ -36,4 +36,4 @@ public class QuartzDemo {
         System.out.println("每一小时执行一次的定时任务："+new Date());
     } 
     
-}
+}*/

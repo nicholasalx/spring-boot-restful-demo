@@ -2,8 +2,12 @@ package com.rjhy.cloud.common.config;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 import javax.servlet.Filter;
+
 import org.apache.shiro.cache.ehcache.EhCacheManager;
+import org.apache.shiro.cas.CasFilter;
+import org.apache.shiro.cas.CasSubjectFactory;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -12,8 +16,6 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
-import org.crazycake.shiro.RedisCacheManager;
-import org.crazycake.shiro.RedisManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -103,15 +105,34 @@ public class ShiroConfiguration {
         securityManager.setRealm(shiroRealm);
         //securityManager.setSessionManager(SessionManager());
         //securityManager.setSessionManager(redisCacheManager());
+        //用户授权/认证信息Cache, 采用EhCache 缓存
         securityManager.setCacheManager(getEhCacheManager());
         //注入记住我管理器;
         securityManager.setRememberMeManager(rememberMeManager());
+        // 指定 SubjectFactory
+        securityManager.setSubjectFactory(new CasSubjectFactory());
         return securityManager;
     }
     
-
+    /**
+     * CAS过滤器
+     *
+     * @return
+     * @author SHANHY
+     * @create  2016年1月17日
+     */
+    @Bean(name = "casFilter")
+    public CasFilter getCasFilter() {
+        CasFilter casFilter = new CasFilter();
+        casFilter.setName("casFilter");
+        casFilter.setEnabled(true);
+        // 登录失败后跳转的URL，也就是 Shiro 执行 CasRealm 的 doGetAuthenticationInfo 方法向CasServer验证tiket
+        casFilter.setFailureUrl("/index.html");// 我们选择认证失败后再打开登录页面
+        return casFilter;
+    }
+    
     @Bean
-    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
+    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager, CasFilter casFilter) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         shiroFilter.setSecurityManager(securityManager);
         shiroFilter.setLoginUrl("/index.html"); //login.jsp //单页应用，如果未登录，跳转到前端MVC入口
@@ -121,11 +142,18 @@ public class ShiroConfiguration {
         Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
         //限制同一帐号同时在线的个数。
         filtersMap.put("kickout", kickoutSessionControlFilter());
+        // 添加casFilter到shiroFilter中
+        filtersMap.put("casFilter", casFilter);
         shiroFilter.setFilters(filtersMap);
 
         Map<String, String> filterMap = new LinkedHashMap<>();
-        filterMap.put("/api/**", "anon");
+        //filterMap.put("/api/**", "anon");
+        filterMap.put("/oauth/login", "anon");
         filterMap.put("/sysUser/**", "anon");
+        filterMap.put("/swagger-ui.html", "anon");
+        filterMap.put("/webjars/**", "anon");
+        filterMap.put("/swagger-resources/**", "anon");
+        filterMap.put("/v2/**", "anon");
         /*filterMap.put("/assets/**", "anon");
         filterMap.put("/fonts/**", "anon");
         filterMap.put("/maps/**", "anon");
