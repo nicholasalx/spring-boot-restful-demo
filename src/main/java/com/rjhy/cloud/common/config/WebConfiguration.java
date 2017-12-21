@@ -15,13 +15,20 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class WebConfiguration  {
 
+	private CorsConfiguration buildConfig() {  
+        CorsConfiguration corsConfiguration = new CorsConfiguration();  
+        corsConfiguration.addAllowedOrigin("*"); 
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        return corsConfiguration;  
+    } 
+	
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        source.registerCorsConfiguration("/api/**", config);
+        source.registerCorsConfiguration("/**", buildConfig());
         //source.registerCorsConfiguration("/sys/**", config);
-        source.registerCorsConfiguration("/druid/**", config);
+        //source.registerCorsConfiguration("/druid/**", config);
         //source.registerCorsConfiguration("/management/**", config);
         return new CorsFilter(source);
     }

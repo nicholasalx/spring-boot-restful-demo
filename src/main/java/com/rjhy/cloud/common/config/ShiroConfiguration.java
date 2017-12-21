@@ -150,10 +150,12 @@ public class ShiroConfiguration {
         //filterMap.put("/api/**", "anon");
         filterMap.put("/oauth/login", "anon");
         filterMap.put("/sysUser/**", "anon");
+        /*swagger 相关*/
         filterMap.put("/swagger-ui.html", "anon");
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/swagger-resources/**", "anon");
         filterMap.put("/v2/**", "anon");
+        /*其它*/
         /*filterMap.put("/assets/**", "anon");
         filterMap.put("/fonts/**", "anon");
         filterMap.put("/maps/**", "anon");
