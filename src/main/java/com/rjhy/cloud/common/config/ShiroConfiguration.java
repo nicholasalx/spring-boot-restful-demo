@@ -155,6 +155,8 @@ public class ShiroConfiguration {
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/swagger-resources/**", "anon");
         filterMap.put("/v2/**", "anon");
+        /*druid*/
+        filterMap.put("/druid/**", "anon");
         /*其它*/
         /*filterMap.put("/assets/**", "anon");
         filterMap.put("/fonts/**", "anon");
