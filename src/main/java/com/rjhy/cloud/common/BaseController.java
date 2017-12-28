@@ -82,7 +82,7 @@ public abstract class BaseController<S extends IService<T>, T extends BaseEntity
 	 */
 	@GetMapping("/page")
 	public PageInfo<T> getSysUsers(@RequestParam(value = "pn", defaultValue = "1") int pn,
-			@RequestParam(value = "ps", defaultValue = "100") int ps, String keyword, String orderBy)
+			@RequestParam(value = "ps", defaultValue = "50") int ps, String keyword, String orderBy)
 	{
 		EntityWrapper<T> wrapper = new EntityWrapper<T>();
 		wrapper.like("name", keyword);

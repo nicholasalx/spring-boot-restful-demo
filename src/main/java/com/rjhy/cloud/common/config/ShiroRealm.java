@@ -59,7 +59,7 @@ public class ShiroRealm extends AuthorizingRealm {
 
         //密码错误
         if(!password.equals(user.getPassword())) {
-            throw new IncorrectCredentialsException("用户名或密码不正确");
+            throw new IncorrectCredentialsException("密码不正确");
         }
 
         //账号禁用

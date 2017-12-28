@@ -19,4 +19,5 @@ import com.rjhy.cloud.user.service.SysRoleService;
 @RestController
 @RequestMapping("/sysRole")
 public class SysRoleController extends BaseController<SysRoleService, SysRole>{
+	
 }
