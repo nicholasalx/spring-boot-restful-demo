@@ -1,9 +1,7 @@
 package com.rjhy.cloud.common.config;
 
-
 import javax.sql.DataSource;
 
-import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.annotation.MapperScan;
@@ -15,14 +13,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import com.baomidou.mybatisplus.MybatisConfiguration;
 import com.baomidou.mybatisplus.MybatisXMLLanguageDriver;
+import com.baomidou.mybatisplus.entity.GlobalConfiguration;
 import com.baomidou.mybatisplus.enums.DBType;
+import com.baomidou.mybatisplus.mapper.LogicSqlInjector;
 import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean;
-import org.springframework.util.StringUtils;
-
 
 /**
  * Created by Rainbow.Pang
@@ -30,70 +29,78 @@ import org.springframework.util.StringUtils;
 @Configuration
 @MapperScan("com.rjhy.cloud.user.dao*")
 public class MybatisPlusConfig {
-    
+
 	@Autowired
-    private DataSource dataSource;
+	private DataSource dataSource;
 
-    @Autowired
-    private MybatisProperties properties;
+	@Autowired
+	private MybatisProperties properties;
 
-    @Autowired
-    private ResourceLoader resourceLoader = new DefaultResourceLoader();
+	@Autowired
+	private ResourceLoader resourceLoader = new DefaultResourceLoader();
 
-    @Autowired(required = false)
-    private Interceptor[] interceptors;
+	@Autowired(required = false)
+	private Interceptor[] interceptors;
 
-    @Autowired(required = false)
-    private DatabaseIdProvider databaseIdProvider;
+	@Autowired(required = false)
+	private DatabaseIdProvider databaseIdProvider;
 
-	
 	/**
-     * mybatis-plus分页插件<br>
-     * 文档：http://mp.baomidou.com<br>
-     */
-    @Bean
-    public PaginationInterceptor paginationInterceptor() {
-        PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
-        paginationInterceptor.setDialectType(DBType.MYSQL.getDb());
-//        paginationInterceptor.setOptimizeType(Optimize.JSQLPARSER.getOptimize());
+	 * mybatis-plus分页插件<br>
+	 * 文档：http://mp.baomidou.com<br>
+	 */
+	@Bean
+	public PaginationInterceptor paginationInterceptor() {
+		PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+		paginationInterceptor.setDialectType(DBType.MYSQL.getDb());
+		// paginationInterceptor.setOptimizeType(Optimize.JSQLPARSER.getOptimize());
 
-        return paginationInterceptor;
-    }
-    
+		return paginationInterceptor;
+	}
 
-    /**
-     * 这里全部使用mybatis-autoconfigure 已经自动加载的资源。不手动指定
-     * 配置文件和mybatis-boot的配置文件同步
-     * @return
-     */
-    @Bean
-    public MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean() {
-        MybatisSqlSessionFactoryBean mybatisPlus = new MybatisSqlSessionFactoryBean();
-        mybatisPlus.setDataSource(dataSource);
-        mybatisPlus.setVfs(SpringBootVFS.class);
-        if (StringUtils.hasText(this.properties.getConfigLocation())) {
-            mybatisPlus.setConfigLocation(this.resourceLoader.getResource(this.properties.getConfigLocation()));
-        }
-        mybatisPlus.setConfiguration(properties.getConfiguration());
-        if (!ObjectUtils.isEmpty(this.interceptors)) {
-            mybatisPlus.setPlugins(this.interceptors);
-        }
-        MybatisConfiguration mc = new MybatisConfiguration();
-        mc.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);
-        mybatisPlus.setConfiguration(mc);
-        if (this.databaseIdProvider != null) {
-            mybatisPlus.setDatabaseIdProvider(this.databaseIdProvider);
-        }
-        if (StringUtils.hasLength(this.properties.getTypeAliasesPackage())) {
-            mybatisPlus.setTypeAliasesPackage(this.properties.getTypeAliasesPackage());
-        }
-        if (StringUtils.hasLength(this.properties.getTypeHandlersPackage())) {
-            mybatisPlus.setTypeHandlersPackage(this.properties.getTypeHandlersPackage());
-        }
-        if (!ObjectUtils.isEmpty(this.properties.resolveMapperLocations())) {
-            mybatisPlus.setMapperLocations(this.properties.resolveMapperLocations());
-        }
+	/**
+	 * 这里全部使用mybatis-autoconfigure 已经自动加载的资源。不手动指定 配置文件和mybatis-boot的配置文件同步
+	 * 
+	 * @return
+	 */
+	@Bean
+	public MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean() {
+		MybatisSqlSessionFactoryBean mybatisPlus = new MybatisSqlSessionFactoryBean();
+		mybatisPlus.setDataSource(dataSource);
+		mybatisPlus.setVfs(SpringBootVFS.class);
+		if (StringUtils.hasText(this.properties.getConfigLocation())) {
+			mybatisPlus.setConfigLocation(this.resourceLoader.getResource(this.properties.getConfigLocation()));
+		}
+		mybatisPlus.setConfiguration(properties.getConfiguration());
+		if (!ObjectUtils.isEmpty(this.interceptors)) {
+			mybatisPlus.setPlugins(this.interceptors);
+		}
+		MybatisConfiguration mc = new MybatisConfiguration();
+		mc.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);
+		mybatisPlus.setConfiguration(mc);
+		if (this.databaseIdProvider != null) {
+			mybatisPlus.setDatabaseIdProvider(this.databaseIdProvider);
+		}
+		if (StringUtils.hasLength(this.properties.getTypeAliasesPackage())) {
+			mybatisPlus.setTypeAliasesPackage(this.properties.getTypeAliasesPackage());
+		}
+		if (StringUtils.hasLength(this.properties.getTypeHandlersPackage())) {
+			mybatisPlus.setTypeHandlersPackage(this.properties.getTypeHandlersPackage());
+		}
+		if (!ObjectUtils.isEmpty(this.properties.resolveMapperLocations())) {
+			mybatisPlus.setMapperLocations(this.properties.resolveMapperLocations());
+		}
+		
+		
+		GlobalConfiguration conf = new GlobalConfiguration(new LogicSqlInjector());
+		conf.setLogicDeleteValue("-1");
+		conf.setLogicNotDeleteValue("1");
+		conf.setFieldStrategy(2);
+		conf.setRefresh(true);
+		conf.setDbColumnUnderline(true);
+		conf.setIdType(3);
+		mybatisPlus.setGlobalConfig(conf);
 
-        return mybatisPlus;
-    }
+		return mybatisPlus;
+	}
 }

@@ -28,25 +28,25 @@
 	<select id="selectMenuByUserId" resultType="com.rjhy.cloud.user.entity.SysPermission">
 		SELECT * from (
 		SELECT m.id,m.parent_id,m.name,m.icon,m.level,m.title,m.type,m.order
-		FROM sys_permission m, sys_role_menu rm, sys_user_role ur
-		WHERE m.id = rm.menu_id AND rm.role_id = ur.role_id
+		FROM sys_permission m, sys_role_permission rm, sys_user_role ur
+		WHERE m.id = rm.permission_id AND rm.role_id = ur.role_id
 		AND ur.user_id = #{value}
 		GROUP BY m.id
 		HAVING m.type <![CDATA[ <> ]]>
 		'2'
 		UNION
 		SELECT sm.id,sm.parent_id,sm.name,sm.icon,sm.level,sm.title,sm.type,sm.order
-		FROM sys_permission m, sys_role_menu rm, sys_user_role ur, sys_permission sm
-		WHERE m.id = rm.menu_id AND rm.role_id = ur.role_id AND m.parent_id = sm.id
+		FROM sys_permission m, sys_role_permission rm, sys_user_role ur, sys_permission sm
+		WHERE m.id = rm.permission_id AND rm.role_id = ur.role_id AND m.parent_id = sm.id
 		AND ur.user_id = #{value}
 		GROUP BY sm.id
 		HAVING sm.type <![CDATA[ <> ]]>
 		'2'
 		UNION
 		SELECT sm.id,sm.parent_id,sm.name,sm.icon,sm.level,sm.title,sm.type,sm.order
-		FROM sys_permission m, sys_role_menu rm, sys_user_role ur, sys_permission psm,
+		FROM sys_permission m, sys_role_permission rm, sys_user_role ur, sys_permission psm,
 		sys_permission sm
-		WHERE m.id = rm.menu_id AND rm.role_id = ur.role_id
+		WHERE m.id = rm.permission_id AND rm.role_id = ur.role_id
 		AND m.parent_id = psm.id AND psm.parent_id = sm.id
 		AND ur.user_id = #{value}
 		GROUP BY sm.id
@@ -58,21 +58,21 @@
 
 	<select id="getPermissions" resultType="String">
 		SELECT m.name
-		FROM sys_permission m, sys_role_menu rm, sys_user_role ur
-		WHERE m.id = rm.menu_id AND rm.role_id = ur.role_id
+		FROM sys_permission m, sys_role_permission rm, sys_user_role ur
+		WHERE m.id = rm.permission_id AND rm.role_id = ur.role_id
 		AND ur.user_id = #{value}
 		GROUP BY m.id
 		UNION
 		SELECT sm.name
-		FROM sys_permission m, sys_role_menu rm, sys_user_role ur, sys_permission sm
-		WHERE m.id = rm.menu_id AND rm.role_id = ur.role_id AND m.parent_id = sm.id
+		FROM sys_permission m, sys_role_permission rm, sys_user_role ur, sys_permission sm
+		WHERE m.id = rm.permission_id AND rm.role_id = ur.role_id AND m.parent_id = sm.id
 		AND ur.user_id = #{value}
 		GROUP BY sm.id
 		UNION
 		SELECT sm.name
-		FROM sys_permission m, sys_role_menu rm, sys_user_role ur, sys_permission psm,
+		FROM sys_permission m, sys_role_permission rm, sys_user_role ur, sys_permission psm,
 		sys_permission sm
-		WHERE m.id = rm.menu_id AND rm.role_id = ur.role_id
+		WHERE m.id = rm.permission_id AND rm.role_id = ur.role_id
 		AND m.parent_id = psm.id AND psm.parent_id = sm.id
 		AND ur.user_id = #{value}
 		GROUP BY sm.id

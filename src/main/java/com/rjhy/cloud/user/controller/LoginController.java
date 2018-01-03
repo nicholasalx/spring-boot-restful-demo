@@ -137,7 +137,9 @@ public class LoginController {
 			String username = map.get("username");
 			String email = map.get("email");
 			SysUser user = new SysUser(username);
-			user.setPassword(password);
+			
+			// sha256加密 保存密码
+			user.setPassword(new Sha256Hash(password).toHex());
 			user.setEmail(email);
 			// 添加默认用户user1权限
 			List<SysRole> rlist = sysRoleService.selectList(new EntityWrapper<>(new SysRole("user1")));

@@ -81,7 +81,7 @@ public abstract class BaseController<S extends IService<T>, T extends BaseEntity
 	 * 分页查询
 	 */
 	@GetMapping("/page")
-	public PageInfo<T> getSysUsers(@RequestParam(value = "pn", defaultValue = "1") int pn,
+	public PageInfo<T> getPages(@RequestParam(value = "pn", defaultValue = "1") int pn,
 			@RequestParam(value = "ps", defaultValue = "50") int ps, String keyword, String orderBy)
 	{
 		EntityWrapper<T> wrapper = new EntityWrapper<T>();

@@ -42,12 +42,12 @@ druid:
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
   typeAliasesPackage: com.rjhy.cloud.entity
-  global-config:
-    id-type: 3
-    field-strategy: 2
-    auto-set-db-type: true
-    db-column-underline: true
-    refresh-mapper: true
+#  global-config:
+#    id-type: 3
+#    field-strategy: 2
+#    auto-set-db-type: true
+#    db-column-underline: true
+#    refresh-mapper: true
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
