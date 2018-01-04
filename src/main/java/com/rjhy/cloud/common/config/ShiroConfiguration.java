@@ -135,21 +135,24 @@ public class ShiroConfiguration {
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager, CasFilter casFilter) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         shiroFilter.setSecurityManager(securityManager);
-        shiroFilter.setLoginUrl("/index.html"); //login.jsp //单页应用，如果未登录，跳转到前端MVC入口
-        shiroFilter.setUnauthorizedUrl("/index.html"); //403.html  //单页应用，这个不起作用
-
-      //自定义拦截器
+        //shiroFilter.setLoginUrl("/index.html"); //login.jsp //单页应用设置这个不起作用，因为路由被mvc框架代理
+        //shiroFilter.setUnauthorizedUrl("/index.html"); //403.html  //单页应用设置这个不起作用，因为路由被mvc框架代理
+        
+        //自定义拦截器
         Map<String, Filter> filtersMap = new LinkedHashMap<String, Filter>();
         //限制同一帐号同时在线的个数。
         filtersMap.put("kickout", kickoutSessionControlFilter());
         // 添加casFilter到shiroFilter中
         filtersMap.put("casFilter", casFilter);
+        // 自定义 未授权 弹出 401 错误
+        filtersMap.put("authc", new AuthenticationFilter());
+        
         shiroFilter.setFilters(filtersMap);
 
         Map<String, String> filterMap = new LinkedHashMap<>();
-        //filterMap.put("/api/**", "anon");
+
         filterMap.put("/oauth/login", "anon");
-        filterMap.put("/sysUser/**", "anon");
+        //filterMap.put("/sysUser/**", "anon"); //测试
         /*swagger 相关*/
         filterMap.put("/swagger-ui.html", "anon");
         filterMap.put("/webjars/**", "anon");
