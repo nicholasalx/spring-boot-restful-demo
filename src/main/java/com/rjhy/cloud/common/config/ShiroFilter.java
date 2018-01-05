@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ShiroFilter extends AdviceFilter {
 	/*
 	 * (non-Javadoc)
-	 * 使用VUe.js 的axios跨域请求，会在 POST、DELETE、PUT请求前先发送OPTIONS请求，
+	 * 使用VUe.js 的axios跨域请求，会在 POST、DELETE、PUT请求前先发送preflight的OPTIONS请求，
 	 * OPTIONS请求无cookie，导致
 	 * shiro返回未授权错误，此处单独处理OPTIONS请求，强行返回200
 	 * @see org.apache.shiro.web.servlet.AdviceFilter#preHandle(javax.servlet.ServletRequest, javax.servlet.ServletResponse)

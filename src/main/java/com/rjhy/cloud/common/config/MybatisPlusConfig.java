@@ -27,7 +27,7 @@ import com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean;
  * Created by Rainbow.Pang
  */
 @Configuration
-@MapperScan("com.rjhy.cloud.user.dao*")
+@MapperScan("com.rjhy.cloud.*.dao*")
 public class MybatisPlusConfig {
 
 	@Autowired
@@ -45,6 +45,7 @@ public class MybatisPlusConfig {
 	@Autowired(required = false)
 	private DatabaseIdProvider databaseIdProvider;
 
+	
 	/**
 	 * mybatis-plus分页插件<br>
 	 * 文档：http://mp.baomidou.com<br>
@@ -90,7 +91,6 @@ public class MybatisPlusConfig {
 		if (!ObjectUtils.isEmpty(this.properties.resolveMapperLocations())) {
 			mybatisPlus.setMapperLocations(this.properties.resolveMapperLocations());
 		}
-		
 		
 		GlobalConfiguration conf = new GlobalConfiguration(new LogicSqlInjector());
 		conf.setLogicDeleteValue("-1");

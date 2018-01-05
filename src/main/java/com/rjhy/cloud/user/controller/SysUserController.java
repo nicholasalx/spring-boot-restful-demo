@@ -3,11 +3,11 @@ package com.rjhy.cloud.user.controller;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +18,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rjhy.cloud.common.BaseController;
 import com.rjhy.cloud.common.utils.ShiroUtils;
-import com.rjhy.cloud.user.entity.SysRole;
 import com.rjhy.cloud.user.entity.SysUser;
 import com.rjhy.cloud.user.service.SysRoleService;
 import com.rjhy.cloud.user.service.SysUserService;
@@ -38,6 +37,8 @@ public class SysUserController extends BaseController<SysUserService, SysUser> {
 
 	@Autowired
 	private SysRoleService sysRoleService;
+	
+	@RequiresPermissions({ "KT Admin" })
 	@PostMapping
 	public ResultVM create(@RequestBody SysUser user) {
 

@@ -50,6 +50,8 @@ public class SysUser extends BaseEntity<SysUser> {
 	@TableField(exist=false)
 	private List<SysRole> rolelist;
 	
+	
+	
 	public List<SysRole> getRolelist() {
 		return rolelist;
 	}

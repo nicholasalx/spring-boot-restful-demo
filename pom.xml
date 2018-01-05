@@ -7,9 +7,10 @@
 
 	<properties>
 		<shiro-version>1.3.2</shiro-version>
-		<mybatis-starter-version>1.3.0</mybatis-starter-version>
+		<mybatis-starter-version>1.3.0</mybatis-starter-version> 
 		<druid.version>1.1.3</druid.version>
 		<mybatis.plus.version>2.1.8</mybatis.plus.version>
+		<!-- <mybatisplus-spring-boot-starter>1.0.5</mybatisplus-spring-boot-starter> -->
 		<pagehelper.version>5.0.0</pagehelper.version>
 		<spring-boot-starter-redis.version>1.4.5.RELEASE</spring-boot-starter-redis.version>
 		<!-- <activiti.version>5.21.0</activiti.version> -->
@@ -35,11 +36,6 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<version>${mybatis-starter-version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
@@ -62,8 +58,20 @@
 			<artifactId>spring-boot-starter-redis</artifactId>
 			<version>${spring-boot-starter-redis.version}</version>
 		</dependency>
-
+		
+		<!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>${mybatis-starter-version}</version>
+		</dependency> 
+		
 		<!-- mybatis.plus -->
+		<!-- <dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatisplus-spring-boot-starter</artifactId>
+			<version>${mybatisplus-spring-boot-starter.version}</version>
+		</dependency> -->
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus</artifactId>
