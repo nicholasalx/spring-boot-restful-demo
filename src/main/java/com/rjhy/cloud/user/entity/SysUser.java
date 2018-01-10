@@ -48,16 +48,30 @@ public class SysUser extends BaseEntity<SysUser> {
 	private Date updateTime;
 
 	@TableField(exist=false)
-	private List<SysRole> rolelist;
+	private List<String> permissions;
+	
+	@TableField(exist=false)
+	private List<String> rolelist;
 	
 	
-	
-	public List<SysRole> getRolelist() {
+
+	public List<String> getRolelist() {
 		return rolelist;
 	}
 
-	public void setRolelist(List<SysRole> rolelist) {
+
+	public void setRolelist(List<String> rolelist) {
 		this.rolelist = rolelist;
+	}
+
+
+	public List<String> getPermissions() {
+		return permissions;
+	}
+
+
+	public void setPermissions(List<String> permissions) {
+		this.permissions = permissions;
 	}
 
 	 

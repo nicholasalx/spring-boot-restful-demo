@@ -1,6 +1,9 @@
 package com.rjhy.cloud.user.dao;
 
 import com.rjhy.cloud.user.entity.SysRole;
+
+import java.util.List;
+
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
@@ -13,4 +16,10 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
+	/**
+     * 根据用户id查询角色
+     * @param userId
+     * @return
+     */
+    List<String> getRoles(String userId);
 }

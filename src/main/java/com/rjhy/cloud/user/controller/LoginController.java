@@ -142,11 +142,11 @@ public class LoginController {
 			user.setPassword(new Sha256Hash(password).toHex());
 			user.setEmail(email);
 			// 添加默认用户user1权限
-			List<SysRole> rlist = sysRoleService.selectList(new EntityWrapper<>(new SysRole("user1")));
+			/*List<SysRole> rlist = sysRoleService.selectList(new EntityWrapper<>(new SysRole("user1")));
 			for (SysRole role : rlist) {
 				role.setChecked(true);
 			}
-			user.setRolelist(rlist);
+			user.setRolelist(rlist);*/
 			sysUserService.insert(user);
 
 			Subject subject = ShiroUtils.getSubject();

@@ -151,7 +151,7 @@ public class ShiroConfiguration {
 
         Map<String, String> filterMap = new LinkedHashMap<>();
 
-        filterMap.put("/oauth/login", "anon");
+        filterMap.put("/oauth/**", "anon");
         //filterMap.put("/sysUser/**", "anon"); //测试
         /*swagger 相关*/
         filterMap.put("/swagger-ui.html", "anon");

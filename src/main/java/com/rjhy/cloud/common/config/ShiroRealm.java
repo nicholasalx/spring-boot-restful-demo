@@ -1,7 +1,17 @@
 package com.rjhy.cloud.common.config;
 
 
-import org.apache.shiro.authc.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -10,9 +20,10 @@ import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
-import com.rjhy.cloud.user.service.*;
-import com.rjhy.cloud.user.entity.*;
+import com.rjhy.cloud.user.entity.SysUser;
+import com.rjhy.cloud.user.service.SysPermissionService;
+import com.rjhy.cloud.user.service.SysRoleService;
+import com.rjhy.cloud.user.service.SysUserService;
 /**
  * Created by oukingtim
  */
@@ -21,6 +32,8 @@ public class ShiroRealm extends AuthorizingRealm {
 
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private SysRoleService sysRoleService; 
     @Autowired
     private SysPermissionService sysPermissionService;
     /**
@@ -67,6 +80,16 @@ public class ShiroRealm extends AuthorizingRealm {
             throw new LockedAccountException("用户已被禁用,请联系管理员");
         }
 
+        //获取用户角色列表
+        List<String>  rolelist=sysRoleService.getRoles(user.getId());
+        user.setRolelist(rolelist);
+        
+        //获取用户权限列表
+        Set<String> permsSet = sysPermissionService.getPermissions(user.getId());
+        List<String> permsList=new ArrayList<String> ();
+        permsList.addAll(permsSet);
+        user.setPermissions(permsList);
+        
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, password, getName());
         return info;
     }
