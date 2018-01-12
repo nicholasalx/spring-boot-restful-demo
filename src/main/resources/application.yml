@@ -28,6 +28,17 @@ spring:
     testOnReturn: false
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
+  mail:  
+    host: smtp.exmail.qq.com  
+    username: 用户名
+    password: 密码
+    properties:  
+      mail:  
+        smtp:  
+          auth: true  
+          starttls:  
+            enable: true  
+            required: true 
   #cache:
   #  ehcache:
   #    config: classpath:/ehcache-shiro.xml
