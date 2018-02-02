@@ -28,7 +28,7 @@ public class MenuVM implements Serializable {
 	}
 	public MenuVM(SysPermission sm) {
         BeanUtils.copyProperties(sm, this);
-        this.stateRef = sm.getName();
+        this.stateRef = sm.getMenuName();
     }
 	public String getId() {
 		return id;

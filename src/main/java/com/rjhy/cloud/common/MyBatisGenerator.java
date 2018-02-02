@@ -28,15 +28,15 @@ public class MyBatisGenerator {
 
     private static String packageName="user";    //文件路径 SpringWorkspance/ssm-provider
     private static String authorName="Rainbow.Pang";     //作者
-    private static String table="sys_schedule_job";              //table名字
+    private static String table="sys_permission";              //table名字
     private static String prefix="";                     //table前缀     sys_
     private static File file = new File("");
-    private static String path = "D:";//file.getAbsolutePath();  //防止操作生成代码覆盖原代码，设置生成位置为D盘
+    private static String path = "D:";//file.getAbsolutePath();   //防止操作生成代码覆盖原代码，设置生成位置为D盘
 
     public static void main(String[] args) {
         // 自定义需要填充的字段
-        //List<TableFill> tableFillList = new ArrayList<TableFill>();
-        //tableFillList.add(new TableFill("ASDD_SS", FieldFill.INSERT_UPDATE));
+        List<TableFill> tableFillList = new ArrayList<TableFill>();
+        tableFillList.add(new TableFill("id", FieldFill.INSERT));
         
         // 代码生成�?
         AutoGenerator mpg = new AutoGenerator().setGlobalConfig(
@@ -44,7 +44,7 @@ public class MyBatisGenerator {
                 new GlobalConfig()
                         .setOutputDir(path+"/src/main/java")//输出目录
                         .setFileOverride(true)// 是否覆盖文件
-                        .setActiveRecord(true)// �?�? activeRecord 模式
+                        .setActiveRecord(true)// activeRecord 模式
                         .setEnableCache(false)// XML 二级缓存
                         .setBaseResultMap(true)// XML ResultMap
                         .setBaseColumnList(true)// XML columList
@@ -59,7 +59,7 @@ public class MyBatisGenerator {
         ).setDataSource(
                 // 数据源配�?
                 new DataSourceConfig()
-                        .setDbType(DbType.MYSQL)// 数据库类�?
+                        .setDbType(DbType.MYSQL)// 数据库类  DbType.MYSQL   DbType.ORACLE
                         .setTypeConvert(new MySqlTypeConvert() {
                             // 自定义数据库表字段类型转换�?�可选�??
                             @Override
@@ -71,6 +71,10 @@ public class MyBatisGenerator {
                                 return super.processTypeConvert(fieldType);
                             }
                         })
+                        /*.setDriverName("oracle.jdbc.driver.OracleDriver")
+                        .setUsername("ehr")
+                        .setPassword("ehr2018")
+                        .setUrl("jdbc:oracle:thin:@192.168.5.200:1521:orcl")*/
                         .setDriverName("com.mysql.jdbc.Driver")
                         .setUsername("root")
                         .setPassword("root123")
@@ -78,19 +82,19 @@ public class MyBatisGenerator {
         ).setStrategy(
                 // 策略配置
                 new StrategyConfig()
-                        // .setCapitalMode(true)// 全局大写命名
+                         .setCapitalMode(true)// 全局大写命名  ORACLE 注意
                         //.setDbColumnUnderline(true)//全局下划线命�?
                         .setTablePrefix(new String[]{prefix})// 此处可以修改为您的表前缀
                         .setNaming(NamingStrategy.underline_to_camel)// 表名生成策略
                         .setInclude(new String[] { table }) // �?要生成的�?
                         .setRestControllerStyle(true)
                         //.setExclude(new String[]{"test"}) // 排除生成的表
-                        // 自定义实体父�?
-                        // .setSuperEntityClass("com.baomidou.demo.TestEntity")
+                        // 自定义实体父类
+                         .setSuperEntityClass("com.rjhy.cloud.common.BaseEntity")
                         // 自定义实体，公共字段
-                        //.setSuperEntityColumns(new String[]{"test_id"})
+                        //.setSuperEntityColumns(new String[]{"id"})
                         //自定义需要填充的字段
-                        //.setTableFillList(tableFillList)
+                        .setTableFillList(tableFillList)
                 // 自定�? mapper 父类
                 // .setSuperMapperClass("com.baomidou.demo.TestMapper")
                 // 自定�? service 父类
@@ -98,7 +102,7 @@ public class MyBatisGenerator {
                 // 自定�? service 实现类父�?
                 // .setSuperServiceImplClass("com.baomidou.demo.TestServiceImpl")
                 // 自定�? controller 父类
-                //.setSuperControllerClass("com.tdx."+packageName+".controller.AbstractController")
+                .setSuperControllerClass("com.rjhy.cloud.common.BaseController")
                 // 【实体�?�是否生成字段常量（默认 false�?
                 // public static final String ID = "test_id";
                 // .setEntityColumnConstant(true)

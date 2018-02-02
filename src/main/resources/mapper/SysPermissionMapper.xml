@@ -20,9 +20,7 @@
 
 	<!-- 通用查询结果列 -->
 	<sql id="Base_Column_List">
-		id, parent_id AS parentId, name, type, icon, title, level, order,
-		create_user_id AS createUserId, create_time AS createTime,
-		update_user_id AS updateUserId, update_time AS updateTime
+	ID, parent_id, name, type, icon, title, level, order, CREATE_USER_ID, CREATE_TIME, UPDATE_USER_ID, UPDATE_TIME
 	</sql>
 
 	<select id="selectMenuByUserId" resultType="com.rjhy.cloud.user.entity.SysPermission">
@@ -61,13 +59,13 @@
 		FROM sys_permission m, sys_role_permission rm, sys_user_role ur
 		WHERE m.id = rm.permission_id AND rm.role_id = ur.role_id
 		AND ur.user_id = #{value}
-		GROUP BY m.id
+		GROUP BY m.name
 		UNION
 		SELECT sm.name
 		FROM sys_permission m, sys_role_permission rm, sys_user_role ur, sys_permission sm
 		WHERE m.id = rm.permission_id AND rm.role_id = ur.role_id AND m.parent_id = sm.id
 		AND ur.user_id = #{value}
-		GROUP BY sm.id
+		GROUP BY sm.name
 		UNION
 		SELECT sm.name
 		FROM sys_permission m, sys_role_permission rm, sys_user_role ur, sys_permission psm,
@@ -75,6 +73,6 @@
 		WHERE m.id = rm.permission_id AND rm.role_id = ur.role_id
 		AND m.parent_id = psm.id AND psm.parent_id = sm.id
 		AND ur.user_id = #{value}
-		GROUP BY sm.id
+		GROUP BY sm.name
 	</select>
 </mapper>

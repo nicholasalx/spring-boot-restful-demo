@@ -2,19 +2,15 @@ package ${package.Entity};
 
 #if(${activeRecord})
 import java.io.Serializable;
-
 #end
 #foreach($pkg in ${table.importPackages})
 import ${pkg};
 #end
 #if(${entityLombokModel})
-
 import com.baomidou.mybatisplus.annotations.Version;
-
 import lombok.Data;
 import lombok.experimental.Accessors;
 #end
-
 /**
  * <p>
  * $!{table.comment}

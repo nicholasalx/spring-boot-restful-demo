@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.rjhy.cloud.user.entity;
+package com.rjhy.cloud.common;
 
 import java.io.Serializable;
 import java.util.Date;

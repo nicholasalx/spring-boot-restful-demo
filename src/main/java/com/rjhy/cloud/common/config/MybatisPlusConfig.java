@@ -93,12 +93,14 @@ public class MybatisPlusConfig {
 		}
 		
 		GlobalConfiguration conf = new GlobalConfiguration(new LogicSqlInjector());
+		//配置公共字段自动填写
+		//conf.setMetaObjectHandler(new MybatisPlusMetaObjectHandler());
 		conf.setLogicDeleteValue("-1");
 		conf.setLogicNotDeleteValue("1");
 		conf.setFieldStrategy(2);
 		conf.setRefresh(true);
 		conf.setDbColumnUnderline(true);
-		conf.setIdType(3);
+		conf.setIdType(5);
 		mybatisPlus.setGlobalConfig(conf);
 
 		return mybatisPlus;

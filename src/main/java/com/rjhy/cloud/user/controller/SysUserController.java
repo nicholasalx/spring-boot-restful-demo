@@ -23,6 +23,10 @@ import com.rjhy.cloud.user.service.SysRoleService;
 import com.rjhy.cloud.user.service.SysUserService;
 import com.rjhy.cloud.vm.ResultVM;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 /**
  * <p>
  * 系统用户 前端控制器
@@ -31,6 +35,7 @@ import com.rjhy.cloud.vm.ResultVM;
  * @author Rainbow.Pang
  * @since 2017-12-08
  */
+@Api(value="用户controller",tags={"用户操作接口"})
 @RestController
 @RequestMapping("/sysUser")
 public class SysUserController extends BaseController<SysUserService, SysUser> {
@@ -38,9 +43,10 @@ public class SysUserController extends BaseController<SysUserService, SysUser> {
 	@Autowired
 	private SysRoleService sysRoleService;
 	
+	@ApiOperation(value="创建新用户",notes="这里是详细说明文档")
 	@RequiresPermissions({ "KT Admin" })
 	@PostMapping
-	public ResultVM create(@RequestBody SysUser user) {
+	public ResultVM create(@ApiParam(name="user",value="用户信息json对象",required=true) @RequestBody SysUser user) {
 
 		// sha256加密 保存密码
 		user.setPassword(new Sha256Hash(user.getPassword()).toHex());
@@ -62,9 +68,13 @@ public class SysUserController extends BaseController<SysUserService, SysUser> {
 	}
 
 	// 重写 getPages方法
+	@ApiOperation(value="分页查询用户列表",notes="这里是详细说明文档，分页会返回详细的json数据，请仔细看")
 	@GetMapping("/page")
-	public PageInfo<SysUser> getPages(@RequestParam(value = "pn", defaultValue = "1") int pn,
-			@RequestParam(value = "ps", defaultValue = "50") int ps, String keyword, String orderBy) {
+	public PageInfo<SysUser> getPages(
+			@ApiParam(name="pn",value="页号",required=false) @RequestParam(value = "pn", defaultValue = "1") int pn,
+			@ApiParam(name="ps",value="每页大小",required=false) int ps,
+			@ApiParam(name="keyword",value="关键字查询",required=false) String keyword, 
+			@ApiParam(name="orderBy",value="排序字段名",required=false) String orderBy) {
 		EntityWrapper<SysUser> wrapper = new EntityWrapper<SysUser>();
 		wrapper.like("username", keyword);
 		wrapper.orderBy(orderBy);

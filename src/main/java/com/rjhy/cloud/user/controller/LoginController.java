@@ -33,6 +33,10 @@ import com.rjhy.cloud.user.service.SysRoleService;
 import com.rjhy.cloud.user.service.SysUserService;
 import com.rjhy.cloud.vm.ResultVM;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 /**
  * Created by oukingtim
  */
@@ -47,8 +51,9 @@ public class LoginController {
 	@Autowired
 	private SysRoleService sysRoleService;
 
+	@ApiOperation(value="用户登陆方法",notes="这里是详细说明文档")
 	@PostMapping("/login")
-	public ResultVM login(@RequestBody Map<String, String> map) {
+	public ResultVM login(@ApiParam(name="map",value="接收用户名密码格式为{\"username\": \"admin\",\"password\": \"admin\"}",required=true)@RequestBody Map<String, String> map) {
 		UsernamePasswordToken token = null;
 		SysUser user = null;
 		try {

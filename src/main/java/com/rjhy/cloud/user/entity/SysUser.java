@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.FieldFill;
+import com.rjhy.cloud.common.BaseEntity;
 
 /**
  * <p>
@@ -19,7 +21,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 public class SysUser extends BaseEntity<SysUser> {
 
     private static final long serialVersionUID = 1L;
-
+    
 	private String id;
     /**
      * 用户名

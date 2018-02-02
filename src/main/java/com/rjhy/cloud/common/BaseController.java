@@ -19,7 +19,6 @@ import com.baomidou.mybatisplus.service.IService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rjhy.cloud.common.utils.ShiroUtils;
-import com.rjhy.cloud.user.entity.BaseEntity;
 import com.rjhy.cloud.vm.ResultVM;
 
 /**
@@ -38,7 +37,7 @@ public abstract class BaseController<S extends IService<T>, T extends BaseEntity
      */
     @PostMapping
     public ResultVM create(@RequestBody T t) {
-
+    	t.setId(null);
         t.setCreateUserId(ShiroUtils.getUserId());
         t.setCreateTime(new Date());
         t.setUpdateTime(new Date());

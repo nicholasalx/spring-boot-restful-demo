@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 #if(${superControllerClassPackage})
 import ${superControllerClassPackage};
 #end
-import com.rjhy.cloud.common.BaseController;
 import ${package.ServiceImpl}.${table.serviceImplName};
 import ${package.Entity}.${entity};
 
