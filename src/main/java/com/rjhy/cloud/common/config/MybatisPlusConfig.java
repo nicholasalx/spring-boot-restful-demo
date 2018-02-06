@@ -1,5 +1,7 @@
 package com.rjhy.cloud.common.config;
 
+import java.util.Properties;
+
 import javax.sql.DataSource;
 
 import org.apache.ibatis.mapping.DatabaseIdProvider;
@@ -18,10 +20,10 @@ import org.springframework.util.StringUtils;
 import com.baomidou.mybatisplus.MybatisConfiguration;
 import com.baomidou.mybatisplus.MybatisXMLLanguageDriver;
 import com.baomidou.mybatisplus.entity.GlobalConfiguration;
-import com.baomidou.mybatisplus.enums.DBType;
 import com.baomidou.mybatisplus.mapper.LogicSqlInjector;
-import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
+//import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean;
+import com.github.pagehelper.PageInterceptor;
 
 /**
  * Created by Rainbow.Pang
@@ -50,15 +52,14 @@ public class MybatisPlusConfig {
 	 * mybatis-plus分页插件<br>
 	 * 文档：http://mp.baomidou.com<br>
 	 */
-	@Bean
+/*	@Bean
 	public PaginationInterceptor paginationInterceptor() {
 		PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
 		paginationInterceptor.setDialectType(DBType.MYSQL.getDb());
 		// paginationInterceptor.setOptimizeType(Optimize.JSQLPARSER.getOptimize());
-
 		return paginationInterceptor;
 	}
-
+*/
 	/**
 	 * 这里全部使用mybatis-autoconfigure 已经自动加载的资源。不手动指定 配置文件和mybatis-boot的配置文件同步
 	 * 
@@ -90,11 +91,21 @@ public class MybatisPlusConfig {
 		}
 		if (!ObjectUtils.isEmpty(this.properties.resolveMapperLocations())) {
 			mybatisPlus.setMapperLocations(this.properties.resolveMapperLocations());
-		}
-		
+		}		
+
+		//分页插件 pagehelper
+		PageInterceptor pageInterceptor = new PageInterceptor();        
+        Properties properties = new Properties();
+        properties.setProperty("offsetAsPageNum", "true");
+        properties.setProperty("rowBoundsWithCount", "true");
+        properties.setProperty("reasonable", "true");
+        properties.setProperty("supportMethodsArguments", "true");
+        properties.setProperty("returnPageInfo", "check");
+        pageInterceptor.setProperties(properties);
+        //添加插件
+        mybatisPlus.setPlugins(new Interceptor[]{pageInterceptor});
+        
 		GlobalConfiguration conf = new GlobalConfiguration(new LogicSqlInjector());
-		//配置公共字段自动填写
-		//conf.setMetaObjectHandler(new MybatisPlusMetaObjectHandler());
 		conf.setLogicDeleteValue("-1");
 		conf.setLogicNotDeleteValue("1");
 		conf.setFieldStrategy(2);
